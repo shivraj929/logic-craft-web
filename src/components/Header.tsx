@@ -1,9 +1,15 @@
-import { Shield, AlertTriangle, Bell, User } from "lucide-react";
+import { Shield, AlertTriangle, Bell, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
+  const { profile, signOut, hasRole } = useAuth();
   const alertCount = 2; // Simulated active alerts
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -61,10 +67,20 @@ const Header = () => {
           </Button>
 
           {/* User Profile */}
-          <Button variant="outline" size="sm" className="hidden sm:flex">
-            <User className="h-4 w-4 mr-2" />
-            Profile
-          </Button>
+          <div className="flex items-center gap-2">
+            <div className="text-sm hidden sm:block">
+              <div className="font-medium">{profile?.display_name || 'User'}</div>
+              <div className="text-xs text-muted-foreground">{profile?.school_name}</div>
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={handleSignOut}
+              title="Sign Out"
+            >
+              <LogOut className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </header>
