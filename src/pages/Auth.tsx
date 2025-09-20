@@ -34,7 +34,13 @@ export default function Auth() {
     try {
       const { error } = await signIn(email, password);
       if (error) {
-        setError(error.message);
+        if (error.message.includes('Email not confirmed') || error.message.includes('email_not_confirmed')) {
+          setError('Please check your email and click the confirmation link before signing in. Check your spam folder if you don\'t see the email.');
+        } else if (error.message.includes('Invalid login credentials')) {
+          setError('Invalid email or password. Please check your credentials and try again.');
+        } else {
+          setError(error.message);
+        }
       } else {
         toast({
           title: "Welcome back!",
