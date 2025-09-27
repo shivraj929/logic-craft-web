@@ -1,11 +1,14 @@
 import Header from "@/components/Header";
-import { Globe, Building2, Users, Shield, Server, Database, Activity, Settings } from "lucide-react";
+import { Globe, Building2, Users, Shield, Server, Database, Activity, Settings, TrendingUp, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/hooks/useAuth";
 
 const SuperAdminDashboard = () => {
+  const { profile } = useAuth();
+
   return (
     <div className="min-h-screen bg-gradient-subtle">
       <Header />
@@ -14,11 +17,25 @@ const SuperAdminDashboard = () => {
         {/* Welcome Section */}
         <section className="text-center space-y-4">
           <h1 className="text-3xl font-bold text-foreground">
-            System Administration Dashboard
+            Welcome, {profile?.display_name || 'Super Admin'}!
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Monitor system-wide performance, manage all schools, and oversee the global emergency preparedness initiative.
           </p>
+          <div className="flex justify-center gap-4">
+            <Button className="gap-2">
+              <Database className="h-4 w-4" />
+              System Administration
+            </Button>
+            <Button variant="outline" className="gap-2">
+              <TrendingUp className="h-4 w-4" />
+              Global Analytics
+            </Button>
+            <Button variant="outline" className="gap-2">
+              <MessageSquare className="h-4 w-4" />
+              System Broadcast
+            </Button>
+          </div>
         </section>
 
         {/* System Overview */}

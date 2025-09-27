@@ -1,11 +1,14 @@
 import Header from "@/components/Header";
-import { Users, BookOpen, AlertTriangle, TrendingUp, Calendar, FileText } from "lucide-react";
+import { Users, BookOpen, AlertTriangle, TrendingUp, Calendar, FileText, MessageSquare, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/hooks/useAuth";
 
 const TeacherDashboard = () => {
+  const { profile } = useAuth();
+
   return (
     <div className="min-h-screen bg-gradient-subtle">
       <Header />
@@ -14,11 +17,25 @@ const TeacherDashboard = () => {
         {/* Welcome Section */}
         <section className="text-center space-y-4">
           <h1 className="text-3xl font-bold text-foreground">
-            Teacher Command Center
+            Welcome, {profile?.display_name || 'Teacher'}!
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Monitor student progress, manage classes, and coordinate emergency preparedness education.
           </p>
+          <div className="flex justify-center gap-4">
+            <Button className="gap-2">
+              <FileText className="h-4 w-4" />
+              Create Assignment
+            </Button>
+            <Button variant="outline" className="gap-2">
+              <Calendar className="h-4 w-4" />
+              Schedule Drill
+            </Button>
+            <Button variant="outline" className="gap-2">
+              <MessageSquare className="h-4 w-4" />
+              Message Students
+            </Button>
+          </div>
         </section>
 
         {/* Class Overview */}
@@ -81,7 +98,10 @@ const TeacherDashboard = () => {
           {/* Recent Activities */}
           <Card className="border-0 bg-card/50 backdrop-blur">
             <CardHeader>
-              <CardTitle className="text-foreground">Recent Activities</CardTitle>
+              <CardTitle className="text-foreground flex items-center gap-2">
+                <Bell className="h-5 w-5" />
+                Recent Student Activities
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {[
@@ -105,6 +125,9 @@ const TeacherDashboard = () => {
                     </p>
                     <p className="text-xs text-muted-foreground">{activity.time}</p>
                   </div>
+                  {activity.type === 'help' && (
+                    <Button size="sm" variant="outline">Respond</Button>
+                  )}
                 </div>
               ))}
             </CardContent>

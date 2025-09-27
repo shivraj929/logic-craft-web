@@ -4,12 +4,15 @@ import CourseModules from "@/components/CourseModules";
 import AlertSystem from "@/components/AlertSystem";
 import AchievementBadges from "@/components/AchievementBadges";
 import QuickStats from "@/components/QuickStats";
-import { BookOpen, Trophy, Clock, Target } from "lucide-react";
+import { BookOpen, Trophy, Clock, Target, Play, Calendar, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { useAuth } from "@/hooks/useAuth";
 
 const StudentDashboard = () => {
+  const { profile } = useAuth();
+
   return (
     <div className="min-h-screen bg-gradient-subtle">
       <Header />
@@ -18,11 +21,21 @@ const StudentDashboard = () => {
         {/* Welcome Section */}
         <section className="text-center space-y-4">
           <h1 className="text-3xl font-bold text-foreground">
-            Welcome to Your Learning Journey
+            Welcome back, {profile?.display_name || 'Student'}!
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Track your progress, complete safety modules, and become an emergency preparedness expert.
+            Continue your emergency preparedness journey. Complete modules, earn achievements, and build vital safety skills.
           </p>
+          <div className="flex justify-center gap-4">
+            <Button className="gap-2">
+              <Play className="h-4 w-4" />
+              Continue Learning
+            </Button>
+            <Button variant="outline" className="gap-2">
+              <Calendar className="h-4 w-4" />
+              View Schedule
+            </Button>
+          </div>
         </section>
 
         {/* Quick Progress Overview */}

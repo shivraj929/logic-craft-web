@@ -1,11 +1,14 @@
 import Header from "@/components/Header";
-import { School, Users, Shield, BarChart3, AlertTriangle, CheckCircle } from "lucide-react";
+import { School, Users, Shield, BarChart3, AlertTriangle, CheckCircle, MessageSquare, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/hooks/useAuth";
 
 const SchoolAdminDashboard = () => {
+  const { profile } = useAuth();
+
   return (
     <div className="min-h-screen bg-gradient-subtle">
       <Header />
@@ -14,11 +17,25 @@ const SchoolAdminDashboard = () => {
         {/* Welcome Section */}
         <section className="text-center space-y-4">
           <h1 className="text-3xl font-bold text-foreground">
-            School Administration Dashboard
+            Welcome, {profile?.display_name || 'Administrator'}!
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Oversee school-wide emergency preparedness, manage staff, and ensure compliance across all grades.
+            Oversee school-wide emergency preparedness at {profile?.school_name || 'your school'}, manage staff, and ensure compliance across all grades.
           </p>
+          <div className="flex justify-center gap-4">
+            <Button className="gap-2">
+              <Shield className="h-4 w-4" />
+              Schedule Emergency Drill
+            </Button>
+            <Button variant="outline" className="gap-2">
+              <BarChart3 className="h-4 w-4" />
+              Generate Reports
+            </Button>
+            <Button variant="outline" className="gap-2">
+              <MessageSquare className="h-4 w-4" />
+              Send School Alert
+            </Button>
+          </div>
         </section>
 
         {/* School Overview */}
