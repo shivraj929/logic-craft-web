@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import { Users, BookOpen, AlertTriangle, TrendingUp, Calendar, FileText, MessageSquare, Bell } from "lucide-react";
+import { Users, BookOpen, AlertTriangle, TrendingUp, Calendar, FileText, MessageSquare, Bell, Clock, Target, Award, CheckCircle, Star, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -134,13 +134,94 @@ const TeacherDashboard = () => {
           </Card>
         </div>
 
+        {/* Teaching Tools & Analytics */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Lesson Planner */}
+          <Card className="border-0 bg-card/50 backdrop-blur">
+            <CardHeader>
+              <CardTitle className="text-foreground flex items-center gap-2">
+                <GraduationCap className="h-5 w-5" />
+                This Week's Lessons
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {[
+                { topic: "Fire Safety Drill Planning", class: "Grade 7A", time: "Today, 10:00 AM", status: "upcoming" },
+                { topic: "Emergency Response Quiz", class: "Grade 8B", time: "Today, 2:00 PM", status: "upcoming" },
+                { topic: "First Aid Demonstration", class: "Grade 7B", time: "Tomorrow, 9:00 AM", status: "prepared" },
+                { topic: "Evacuation Route Review", class: "Grade 9A", time: "Friday, 11:00 AM", status: "draft" }
+              ].map((lesson, index) => (
+                <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/20 hover:bg-muted/40 transition-colors">
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-3 h-3 rounded-full ${
+                      lesson.status === 'upcoming' ? 'bg-primary' :
+                      lesson.status === 'prepared' ? 'bg-success' :
+                      'bg-warning'
+                    }`} />
+                    <div>
+                      <p className="font-medium text-foreground">{lesson.topic}</p>
+                      <p className="text-sm text-muted-foreground">{lesson.class} • {lesson.time}</p>
+                    </div>
+                  </div>
+                  <Button size="sm" variant="outline">Edit</Button>
+                </div>
+              ))}
+              <Button className="w-full gap-2">
+                <Calendar className="h-4 w-4" />
+                Plan New Lesson
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Student Insights */}
+          <Card className="border-0 bg-card/50 backdrop-blur">
+            <CardHeader>
+              <CardTitle className="text-foreground flex items-center gap-2">
+                <TrendingUp className="h-5 w-5" />
+                Student Performance Insights
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-3">
+                <div className="p-3 rounded-lg bg-success/10 border border-success/20">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <CheckCircle className="h-4 w-4 text-success" />
+                    <span className="font-medium text-success">High Performers</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">15 students scoring above 90%</p>
+                </div>
+                
+                <div className="p-3 rounded-lg bg-warning/10 border border-warning/20">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Clock className="h-4 w-4 text-warning" />
+                    <span className="font-medium text-warning">Need Attention</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">8 students behind schedule</p>
+                </div>
+                
+                <div className="p-3 rounded-lg bg-primary/10 border border-primary/20">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Star className="h-4 w-4 text-primary" />
+                    <span className="font-medium text-primary">Recent Achievements</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">22 new badges earned this week</p>
+                </div>
+              </div>
+              
+              <Button variant="outline" className="w-full">
+                View Detailed Analytics
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Quick Actions */}
         <Card className="border-0 bg-card/50 backdrop-blur">
           <CardHeader>
             <CardTitle className="text-foreground">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <Button variant="outline" className="h-20 flex-col space-y-2">
                 <Calendar className="h-6 w-6" />
                 <span>Schedule Drill</span>
@@ -152,6 +233,10 @@ const TeacherDashboard = () => {
               <Button variant="outline" className="h-20 flex-col space-y-2">
                 <Users className="h-6 w-6" />
                 <span>Message Students</span>
+              </Button>
+              <Button variant="outline" className="h-20 flex-col space-y-2">
+                <Award className="h-6 w-6" />
+                <span>Award Badges</span>
               </Button>
             </div>
           </CardContent>

@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import { Globe, Building2, Users, Shield, Server, Database, Activity, Settings, TrendingUp, MessageSquare } from "lucide-react";
+import { Globe, Building2, Users, Shield, Server, Database, Activity, Settings, TrendingUp, MessageSquare, AlertCircle, BarChart, Monitor, Zap, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -175,13 +175,113 @@ const SuperAdminDashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Administrative Tools */}
+        {/* Real-time Monitoring & Analytics */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Live System Metrics */}
+          <Card className="border-0 bg-card/50 backdrop-blur">
+            <CardHeader>
+              <CardTitle className="text-foreground flex items-center gap-2">
+                <Monitor className="h-5 w-5" />
+                Live System Metrics
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {[
+                { metric: "API Response Time", value: "127ms", status: "good", trend: "↓ 12%" },
+                { metric: "Database Connections", value: "2,847", status: "warning", trend: "↑ 8%" },
+                { metric: "Active Sessions", value: "45,231", status: "good", trend: "↑ 15%" },
+                { metric: "Error Rate", value: "0.03%", status: "excellent", trend: "↓ 45%" },
+                { metric: "Server Load", value: "67%", status: "good", trend: "↓ 5%" }
+              ].map((metric, index) => (
+                <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/20">
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-3 h-3 rounded-full ${
+                      metric.status === 'excellent' ? 'bg-success' :
+                      metric.status === 'good' ? 'bg-primary' :
+                      metric.status === 'warning' ? 'bg-warning' :
+                      'bg-destructive'
+                    }`} />
+                    <div>
+                      <p className="font-medium text-foreground">{metric.metric}</p>
+                      <p className="text-sm text-muted-foreground">{metric.trend}</p>
+                    </div>
+                  </div>
+                  <span className="text-lg font-bold text-foreground">{metric.value}</span>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+
+          {/* Global Alerts & Incidents */}
+          <Card className="border-0 bg-card/50 backdrop-blur">
+            <CardHeader>
+              <CardTitle className="text-foreground flex items-center gap-2">
+                <AlertCircle className="h-5 w-5" />
+                Global Incidents
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {[
+                { 
+                  location: "West Coast Region", 
+                  incident: "Earthquake drill coordination", 
+                  severity: "medium",
+                  time: "2 hours ago",
+                  status: "active"
+                },
+                { 
+                  location: "Northeast Schools", 
+                  incident: "System maintenance window", 
+                  severity: "low",
+                  time: "6 hours ago",
+                  status: "completed"
+                },
+                { 
+                  location: "Global Network", 
+                  incident: "Security patch deployment", 
+                  severity: "high",
+                  time: "1 day ago",
+                  status: "monitoring"
+                }
+              ].map((incident, index) => (
+                <div key={index} className="p-3 rounded-lg bg-muted/20 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium text-foreground">{incident.location}</span>
+                    <Badge variant={
+                      incident.severity === 'high' ? 'destructive' :
+                      incident.severity === 'medium' ? 'secondary' :
+                      'outline'
+                    }>
+                      {incident.severity}
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-foreground">{incident.incident}</p>
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <span>{incident.time}</span>
+                    <span className={`px-2 py-1 rounded-full ${
+                      incident.status === 'active' ? 'bg-warning/20 text-warning' :
+                      incident.status === 'completed' ? 'bg-success/20 text-success' :
+                      'bg-primary/20 text-primary'
+                    }`}>
+                      {incident.status}
+                    </span>
+                  </div>
+                </div>
+              ))}
+              <Button variant="outline" className="w-full">
+                View All Incidents
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Advanced System Administration */}
         <Card className="border-0 bg-card/50 backdrop-blur">
           <CardHeader>
             <CardTitle className="text-foreground">System Administration</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
               <Button variant="outline" className="h-20 flex-col space-y-2">
                 <Database className="h-6 w-6" />
                 <span>Database Admin</span>
@@ -197,6 +297,14 @@ const SuperAdminDashboard = () => {
               <Button variant="outline" className="h-20 flex-col space-y-2">
                 <Settings className="h-6 w-6" />
                 <span>System Settings</span>
+              </Button>
+              <Button variant="outline" className="h-20 flex-col space-y-2">
+                <BarChart className="h-6 w-6" />
+                <span>Analytics Suite</span>
+              </Button>
+              <Button variant="outline" className="h-20 flex-col space-y-2">
+                <Zap className="h-6 w-6" />
+                <span>Performance Tools</span>
               </Button>
             </div>
           </CardContent>

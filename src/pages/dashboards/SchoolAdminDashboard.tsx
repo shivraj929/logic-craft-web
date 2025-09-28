@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import { School, Users, Shield, BarChart3, AlertTriangle, CheckCircle, MessageSquare, FileText } from "lucide-react";
+import { School, Users, Shield, BarChart3, AlertTriangle, CheckCircle, MessageSquare, FileText, Calendar, Clock, DollarSign, TrendingUp, UserCheck, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -164,13 +164,82 @@ const SchoolAdminDashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Quick Actions */}
+        {/* Budget & Resource Management */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <Card className="border-0 bg-card/50 backdrop-blur">
+            <CardHeader>
+              <CardTitle className="text-foreground flex items-center gap-2">
+                <DollarSign className="h-5 w-5" />
+                Budget Overview
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {[
+                { category: "Emergency Equipment", allocated: 25000, spent: 18500, percentage: 74 },
+                { category: "Safety Training", allocated: 15000, spent: 12000, percentage: 80 },
+                { category: "Drill Coordination", allocated: 8000, spent: 5200, percentage: 65 },
+                { category: "Technology Systems", allocated: 35000, spent: 28000, percentage: 80 }
+              ].map((budget, index) => (
+                <div key={index} className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium text-foreground">{budget.category}</span>
+                    <span className="text-sm text-muted-foreground">
+                      ${budget.spent.toLocaleString()} / ${budget.allocated.toLocaleString()}
+                    </span>
+                  </div>
+                  <Progress value={budget.percentage} className="h-2" />
+                </div>
+              ))}
+              <Button variant="outline" className="w-full">
+                View Full Budget Report
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Upcoming Events & Deadlines */}
+          <Card className="border-0 bg-card/50 backdrop-blur">
+            <CardHeader>
+              <CardTitle className="text-foreground flex items-center gap-2">
+                <Calendar className="h-5 w-5" />
+                Upcoming Events
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {[
+                { event: "Fire Safety Drill", date: "Tomorrow", type: "drill", priority: "high" },
+                { event: "Safety Equipment Inspection", date: "March 28", type: "inspection", priority: "medium" },
+                { event: "Emergency Response Training", date: "April 2", type: "training", priority: "high" },
+                { event: "Parent Safety Workshop", date: "April 8", type: "workshop", priority: "low" },
+                { event: "Quarterly Safety Review", date: "April 15", type: "review", priority: "medium" }
+              ].map((event, index) => (
+                <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/20">
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-3 h-3 rounded-full ${
+                      event.priority === 'high' ? 'bg-destructive' :
+                      event.priority === 'medium' ? 'bg-warning' :
+                      'bg-muted-foreground'
+                    }`} />
+                    <div>
+                      <p className="font-medium text-foreground">{event.event}</p>
+                      <p className="text-sm text-muted-foreground">{event.date}</p>
+                    </div>
+                  </div>
+                  <Badge variant={event.priority === 'high' ? 'destructive' : event.priority === 'medium' ? 'secondary' : 'outline'}>
+                    {event.type}
+                  </Badge>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Administrative Actions */}
         <Card className="border-0 bg-card/50 backdrop-blur">
           <CardHeader>
             <CardTitle className="text-foreground">Administrative Actions</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
               <Button variant="outline" className="h-20 flex-col space-y-2">
                 <Shield className="h-6 w-6" />
                 <span>Schedule Drill</span>
@@ -186,6 +255,10 @@ const SchoolAdminDashboard = () => {
               <Button variant="outline" className="h-20 flex-col space-y-2">
                 <AlertTriangle className="h-6 w-6" />
                 <span>Send Alert</span>
+              </Button>
+              <Button variant="outline" className="h-20 flex-col space-y-2">
+                <Settings className="h-6 w-6" />
+                <span>School Settings</span>
               </Button>
             </div>
           </CardContent>
