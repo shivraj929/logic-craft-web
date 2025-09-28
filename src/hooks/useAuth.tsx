@@ -43,20 +43,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .maybeSingle();
 
       // Fetch roles
-      const { data: rolesData, error: rolesError } = await supabase
+      const { data: rolesData } = await supabase
         .from('user_roles')
         .select('role')
         .eq('user_id', userId);
 
-      console.log('User ID:', userId);
-      console.log('Profile data:', profileData);
-      console.log('Roles data:', rolesData);
-      console.log('Roles error:', rolesError);
-
       setProfile(profileData);
-      const userRoles = rolesData?.map(r => r.role) || [];
-      setRoles(userRoles);
-      console.log('Set roles:', userRoles);
+      setRoles(rolesData?.map(r => r.role) || []);
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
